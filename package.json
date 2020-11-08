@@ -17,11 +17,26 @@
   },
   "license": "MIT",
   "author": "Daniel Rearden",
-  "main": "dist/esm/index.js",
-  "typings": "dist/esm/index.d.ts",
+  "main": "dist/index.js",
+  "unpkg": "dist/index.min.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "del-cli dist && rollup -c",
+    "lint": "prettier --check . && tsc --noEmit",
+    "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": "prettier --write"
+  },
   "dependencies": {},
   "devDependencies": {
     "@types/eventsource": "^1.1.4",
@@ -36,25 +51,11 @@
     "lint-staged": "^10.5.1",
     "prettier": "^2.1.2",
     "rollup": "^2.33.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.29.0",
     "terser": "^5.3.8",
     "ts-jest": "^26.4.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
-  },
-  "scripts": {
-    "build": "del-cli dist && npm run build-esm && npm run build-umd && npm run build-umd:min",
-    "build-esm": "tsc",
-    "build-umd": "rollup dist/esm/index.js --format=umd --name=SSEZ --file dist/umd/sse-z.js",
-    "build-umd:min": "cd dist/umd && terser sse-z.js -cmo sse-z.min.js",
-    "lint": "prettier --check .",
-    "test": "jest"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts}": "prettier --write"
   }
 }

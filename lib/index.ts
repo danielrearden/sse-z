@@ -1,4 +1,4 @@
-export interface SSESubscriptionOptions {
+export interface SubscriptionOptions {
   eventSourceOptions?: {
     withCredentials?: boolean;
     [key: string]: any;
@@ -14,15 +14,15 @@ export interface SSESubscriptionOptions {
   url: string;
 }
 
-export class SSESubscription {
+export class Subscription {
   eventSource: EventSource;
 
-  private options: SSESubscriptionOptions;
+  private options: SubscriptionOptions;
   private keepAliveTimer?: any;
   private keepAliveLastReceivedAt = Date.now();
   private url: string;
 
-  constructor(options: SSESubscriptionOptions) {
+  constructor(options: SubscriptionOptions) {
     this.options = options;
 
     const url = new URL(options.url);
