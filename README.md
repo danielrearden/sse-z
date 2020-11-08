@@ -18,8 +18,8 @@ const subscription = new SSESubscription({
   searchParams: {
     foo: "bar",
   },
-  onNext: (type: string, data: string) => {
-    console.log(type, data);
+  onNext: (data: string) => {
+    console.log(data);
   },
 });
 
@@ -63,7 +63,7 @@ interface SSESubscriptionOptions {
   onError?: (error: Error) => void;
 
   // Callback called whenever an event is pushed.
-  onNext?: (type: string, data: string) => void;
+  onNext?: (data: string) => void;
 
   // Any URL query parameters to attach to the URL.
   searchParams?: {
@@ -101,11 +101,8 @@ const subscribe: SubscribeFunction = (operation, variables) => {
         // Ensure cookies are included with the request
         withCredentials: true,
       },
-      onNext: (type, data) => {
-        // Note: the actual type may vary by server
-        if (type === 'event') {
-          sink.next(JSON.parse(data));
-        }
+      onNext: (data) => {
+        sink.next(JSON.parse(data));
       },
     });
   });
@@ -145,11 +142,8 @@ class SSELink extends ApolloLink {
           variables: JSON.stringify(variables),
           operationName,
         },
-        onNext: (type, data) => {
-          // Note: the actual type may vary by server
-          if (type === "event") {
-            sink.next(JSON.parse(data));
-          }
+        onNext: (data) => {
+          sink.next(JSON.parse(data));
         },
       });
 
