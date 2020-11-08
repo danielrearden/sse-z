@@ -19,6 +19,7 @@
   "author": "Daniel Rearden",
   "main": "dist/index.js",
   "unpkg": "dist/index.min.js",
+  "jsdelivr": "dist/index.min.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
