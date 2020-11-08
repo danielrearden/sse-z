@@ -28,6 +28,7 @@
   "scripts": {
     "build": "del-cli dist && rollup -c",
     "lint": "prettier --check . && tsc --noEmit",
+    "prepublishOnly": "npm run build",
     "test": "jest"
   },
   "husky": {
