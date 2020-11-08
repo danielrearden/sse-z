@@ -9,7 +9,7 @@ export interface SubscriptionOptions {
   };
   onComplete?: () => void;
   onError?: (error: Error) => void;
-  onNext?: (type: string, data: string) => void;
+  onNext?: (data: string) => void;
   searchParams?: { [key: string]: string };
   url: string;
 }
@@ -61,7 +61,7 @@ export class Subscription {
 
     eventSource.addEventListener("message", (event) => {
       if (this.options.onNext) {
-        this.options.onNext(event.type, event.data);
+        this.options.onNext(event.data);
       }
     });
 

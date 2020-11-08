@@ -42,12 +42,12 @@ describe("basic usage", () => {
   });
 
   test("subscribes and unsubscribes successfully", async () => {
-    const results: [string, string][] = [];
+    const results: string[] = [];
     const eventEmitter = new EventEmitter();
     const subscription = new Subscription({
       url: `http://localhost:${port}/sse`,
-      onNext: (type, data) => {
-        results.push([type, data]);
+      onNext: (data) => {
+        results.push(data);
         if (results.length === 3) {
           eventEmitter.emit("done");
         }
@@ -55,10 +55,6 @@ describe("basic usage", () => {
     });
     await new Promise((resolve) => eventEmitter.on("done", resolve));
     subscription.unsubscribe();
-    expect(results).toEqual([
-      ["message", "1"],
-      ["message", "2"],
-      ["message", "3"],
-    ]);
+    expect(results).toEqual(["1", "2", "3"]);
   });
 });
