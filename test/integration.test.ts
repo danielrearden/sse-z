@@ -3,7 +3,7 @@ import EventSource from "eventsource";
 import express from "express";
 import { Server } from "net";
 import getPort from "get-port";
-import { SSESubscription } from "../lib";
+import { Subscription } from "../lib";
 
 // @ts-ignore
 global.EventSource = EventSource;
@@ -44,7 +44,7 @@ describe("basic usage", () => {
   test("subscribes and unsubscribes successfully", async () => {
     const results: [string, string][] = [];
     const eventEmitter = new EventEmitter();
-    const subscription = new SSESubscription({
+    const subscription = new Subscription({
       url: `http://localhost:${port}/sse`,
       onNext: (type, data) => {
         results.push([type, data]);
