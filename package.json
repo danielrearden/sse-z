@@ -1,6 +1,6 @@
 {
   "name": "sse-z",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A slim, easy-to-use wrapper around SSE.",
   "keywords": [
     "sse",
