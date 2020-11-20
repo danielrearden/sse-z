@@ -11,9 +11,9 @@ npm install sse-z
 ## Usage
 
 ```ts
-import { SSESubscription } from "sse-z";
+import { Subscription } from "sse-z";
 
-const subscription = new SSESubscription({
+const subscription = new Subscription({
   url: "http://localhost:8080/sse",
   searchParams: {
     foo: "bar",
@@ -30,7 +30,7 @@ subscription.unsubscribe();
 ## Types
 
 ```ts
-class SSESubscription {
+class Subscription {
   eventSource: EventSource;
 
   constructor(options: SSESubscriptionOptions);
@@ -38,7 +38,7 @@ class SSESubscription {
   unsubscribe(): void;
 }
 
-interface SSESubscriptionOptions {
+interface SubscriptionOptions {
   // Additional options to pass to the constructor of the underlying EventSource instance.
   eventSourceOptions?: {
     withCredentials?: boolean;
@@ -86,11 +86,11 @@ import {
   Observable,
   SubscribeFunction,
 } from "relay-runtime";
-import { SSESubscription } from "sse-z";
+import { Subscription } from "sse-z";
 
 const subscribe: SubscribeFunction = (operation, variables) => {
   return Observable.create((sink) => {
-    return new SSESubscription({
+    return new Subscription({
       url: 'http://localhost:8080/graphql',
       searchParams: {
         operationName: operation.name,
@@ -119,12 +119,12 @@ const environment = new Environment({
 ```ts
 import { ApolloLink, Operation, FetchResult, Observable } from "@apollo/client";
 import { print } from "graphql";
-import { SSESubscription, SSESubscriptionOptions } from "sse-z";
+import { Subscription, SubscriptionOptions } from "sse-z";
 
 class SSELink extends ApolloLink {
   options: SSESubscriptionOptions;
 
-  constructor(options: SSESubscriptionOptions) {
+  constructor(options: SubscriptionOptions) {
     super();
     this.options = options;
   }
@@ -135,7 +135,7 @@ class SSELink extends ApolloLink {
     operationName,
   }: Operation): Observable<FetchResult> {
     return new Observable((sink) => {
-      const subscription = new SSESubscription({
+      const subscription = new Subscription({
         ...options,
         searchParams: {
           query: print(operation.query),
