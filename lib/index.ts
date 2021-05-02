@@ -25,7 +25,6 @@ export class Subscription {
   constructor(options: SubscriptionOptions) {
     this.options = options;
 
-    const url = new URL(options.url);
     const searchParams = new URLSearchParams(
       Object.entries(options.searchParams || {}).reduce(
         (accumulator, [key, value]) =>
@@ -35,8 +34,8 @@ export class Subscription {
         {} as { [key: string]: any }
       )
     );
-    url.search = searchParams.toString();
-    this.url = url.toString();
+
+    this.url = `${options.url}?${searchParams.toString()}`;
 
     this.eventSource = this.connect();
 
